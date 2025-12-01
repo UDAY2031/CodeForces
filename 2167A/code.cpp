@@ -1,0 +1,20 @@
+#include<bits/stdc++.h>
+using namespace std;
+ 
+int main(){
+    int k;
+    cin >> k;
+    
+    while(k--){
+        int a,b,c,d;
+        
+        cin >> a >> b >> c >> d;
+        
+        if(a == b && b == c && c == d){
+            cout << "YES" << endl;
+        }else{
+            cout << "NO" << endl;
+        }
+    }
+    return 0;
+}
