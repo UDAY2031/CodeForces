@@ -1,84 +1,101 @@
-# 💻 Codeforces Problem A: Same Difference (2166A)
+# ✨ Codeforces Problem C: Isamatdin and His Magic Wand
 
 ## 📄 Problem Statement
 
-You are given a string **s** of length **n**, consisting only of lowercase letters.
+Isamatdin has **n** toys arranged in a row.  
+The **i-th** toy has an integer value **aᵢ**.
 
-You may perform the following operation any number of times:
+He wants to sort them, but his magic wand is **broken**.  
+The wand **can only swap** two toys **if their values have different parity**:
 
-- Choose an index **i** such that  
-  `1 ≤ i < n`
-- Replace  
-  `s[i] ← s[i+1]`
-
-Your goal is to determine the **minimum number of operations** required to make **all characters in the string identical**.
-
-It is guaranteed that this is always possible.
-
----
-
-## 🔍 Solution Insight
-
-The crucial detail lies in the **direction of copying**:
-
-### ➤ You can only copy from **right to left** (from `s[i+1]` to `s[i]`).
-
-Because of this:
-
-### ✔ The last character `s[n]` **cannot be changed**  
-There is no `s[n+1]` to copy from, so `s[n]` stays fixed forever.
-
-### ✔ Therefore, the **entire string must ultimately become `s[n]`**.
-
-To achieve this, every character in the prefix:
-
-`s[1], s[2], ..., s[n−1]`
+You may swap (i, j) only if (a[i] % 2) ≠ (a[j] % 2)
 
 
-must be changed into `s[n]`.
+This means:
 
-### 🎯 Minimum operations = count of characters in `s[1..n−1]` not equal to `s[n]`.
+- even ↔ odd → ✔ allowed  
+- even ↔ even → ✘ not allowed  
+- odd ↔ odd → ✘ not allowed  
+
+Your task is to determine the **lexicographically smallest sequence** that can be formed using **any number of such allowed swaps**.
+
+A sequence **p** is lexicographically smaller than **q** if at the first differing index **i**,  
+`p[i] < q[i]`
+
 
 ---
 
 ## 📥 Input Format
 
-- First line: integer **t** — number of test cases  
-  `1 ≤ t ≤ 20`
+- First line: integer **t**, the number of test cases  
+  `1 ≤ t ≤ 10⁴`
+- Each test case contains:
+  - Integer **n** — number of toys  
+    `1 ≤ n ≤ 2·10⁵`
+  - A list of **n** integers  
+    `1 ≤ aᵢ ≤ 10⁹`
 
-For each test case:
-
-1. Integer **n** — length of the string  
-   `2 ≤ n ≤ 100`
-2. A string **s** of lowercase letters.
+The **sum of all n** across test cases does **not exceed 2·10⁵**.
 
 ---
 
 ## 📤 Output Format
 
-For each test case, print a single integer —  
-the **minimum number of operations** needed to make all characters equal.
+For each test case, print the **lexicographically smallest array** achievable using the broken wand.
+
+---
+
+## 🔍 Key Insight
+
+### ✔ Allowed swaps only occur between elements of **different parity**.
+
+This single restriction determines the entire solution.
+
+---
+
+## 🧠 Core Observations
+
+### **1️⃣ If the array contains BOTH even and odd numbers:**
+You can always rearrange elements arbitrarily.
+
+Why?  
+Because you can keep swapping through elements of opposite parity, allowing movement across the entire array.  
+It effectively simulates full sorting.
+
+Thus:
+
+### 👉 **If the array has at least one even and one odd → the entire array can be fully sorted.**
+
+---
+
+### **2️⃣ If the array contains ONLY even numbers or ONLY odd numbers:**
+No swaps are possible at all.
+
+Thus:
+
+### 👉 **If all numbers share the same parity → the array stays exactly as it is.**
+
+---
+
+## 🎯 Final Rule
+
+### ✔ If both parities exist → output the sorted array  
+### ✔ Otherwise → output the original array
+
+This gives the lexicographically smallest sequence in all valid cases.
 
 ---
 
 ## ✨ Examples
 
-| Input (n, s) | Last Char (`s[n]`) | Characters ≠ `s[n]` | Count | Output |
-|--------------|--------------------|-----------------------|--------|--------|
-| `3`, `qwq`   | `q`                | `w`                   | 1      | **1** |
-| `2`, `aa`    | `a`                | —                     | 0      | **0** |
-| `4`, `test`  | `t`                | `e`, `s`              | 2      | **2** |
-| `5`, `abbac` | `c`                | `a`, `b`, `b`, `a`    | 4      | **4** |
-| `6`, `abcabc`| `c`                | `a`, `b`, `a`, `b`    | 4      | **4** |
-
----
-
-## 🧠 Example Explanation
-
-### Example: `qwq`
-- Last character = `q`
-- Characters before it: `q`, `w`
-- Only one mismatch: `w`
-- So operations required = **1**
+| Input Array | Parities | Can Swap? | Result |
+|-------------|----------|-----------|--------|
+| `2 3 1 4` | even + odd | yes | `1 2 3 4` |
+| `3 2 1 3 4` | even + odd | yes | `1 2 3 3 4` |
+| `3 7 5 1` | all odd | no | `3 7 5 1` |
+| `1000000000 2` | all even | no | `1000000000 2` |
+| `1 3 5` | all odd | no | `1 3 5` |
+| `2 5 3 1 7` | mixed | yes | `1 2 3 5 7` |
+| `2 4 8 6` | all even | no | `2 4 8 6` |
 
 ---
