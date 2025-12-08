@@ -10,9 +10,8 @@ int main(){
         int a, b, c;
         cin >> a >> b >> c;
         
-        if((a == 1 && b == 1) || (b == 1 && c == 1) || (a == 1 && c == 1)){
-            cnt++;
-        }
+        int sum = a + b + c;
+        if(sum >= 2) cnt++;
     }
     cout << cnt << endl;
     return 0;
