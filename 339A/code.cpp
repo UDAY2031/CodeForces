@@ -8,7 +8,7 @@ int main(){
     vector<char> res;
     
     for(int i = 0; i < s.size(); i++){
-        if(isalnum(s[i])){
+        if(isdigit(s[i])){
             res.push_back(s[i]);
         }
     }
